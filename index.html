@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CCon 0.4.0V</title>
+  <style>
+    :root{--bg:#f6f7fb;--card:#ffffff;--text:#1c2333;--muted:#667085;--border:#d9dfeb;--primary:#165dff;--primary2:#0f4fd6;--warn:#b54708;--warnbg:#fff7ed;--shadow:0 12px 32px rgba(23,34,77,.08)}
+    *{box-sizing:border-box} body{margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:var(--bg);color:var(--text)}
+    .wrap{max-width:1200px;margin:0 auto;padding:24px} h1{margin:0 0 8px;font-size:32px}.sub{color:var(--muted);margin-bottom:20px;max-width:70ch}
+    .grid{display:grid;grid-template-columns:420px 1fr;gap:20px}.card{background:var(--card);border:1px solid var(--border);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+    .form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.full{grid-column:1/-1} label{display:block;font-size:14px;font-weight:600;margin-bottom:6px}
+    input,select,button{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--border);font:inherit;background:#fff}
+    button{background:var(--primary);color:#fff;border:none;font-weight:700;cursor:pointer}.secondary{background:#eef3ff;color:var(--primary)} button:hover{background:var(--primary2)} .secondary:hover{background:#dde8ff}
+    .actions{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}.status{margin-top:10px;font-size:14px;color:var(--warn);min-height:20px;padding:12px 14px;border-radius:12px;background:var(--warnbg);border:1px solid #fed7aa}
+    table{width:100%;border-collapse:collapse;font-size:14px}.table-wrap{overflow:auto} th,td{padding:12px;border-bottom:1px solid var(--border);text-align:left} th:nth-child(2),th:nth-child(3),td:nth-child(2),td:nth-child(3){text-align:right}
+    .note{font-size:13px;color:var(--muted);margin-top:10px}.help{margin-top:12px;padding:12px 14px;background:#f8fafc;border:1px dashed var(--border);border-radius:12px;font-size:13px;color:#475467;line-height:1.5}
+    .muted-table td{color:#98a2b3}.pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#eef3ff;color:var(--primary);font-size:12px;font-weight:700;margin-bottom:12px}
+    @media (max-width: 920px){.grid{grid-template-columns:1fr}.form-grid{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="pill">Version 0.4.0V</div>
+    <h1>CCon 0.4.0V</h1>
+    <div class="sub">Dieses Tool rechnet thermohydraulische Kennwerte von Fluid 1 auf Fluid 2 um.</div>
+    <div class="grid">
+      <section class="card">
+        <div class="form-grid">
+          <div class="full"><label>Projekt</label><input id="project" value="Projekt"></div>
+          <div><label>Fluid 1</label><select id="c1"><option>Wasser</option><option>Antifrogen N</option><option>Antifrogen L</option><option>Kaliumformiat</option></select></div>
+          <div><label>Konzentration Fluid 1 [%]</label><input id="c1pct" type="number" step="any" value="100"></div>
+          <div><label>Basis</label><select id="vq"><option>Volumenstrom Fluid 1 [m3/h]:</option><option>Übertragene Leistung Fluid 1 [kW]:</option></select></div>
+          <div><label>Wert</label><input id="vqval" type="number" step="any" value="10"></div>
+          <div class="full"><label>Druckverlust Fluid 1 [bar]</label><input id="dp" type="number" step="any" value="2.5"></div>
+          <div><label>Mittlere Temperatur [°C]</label><input id="T" type="number" step="any" value="7.5"></div>
+          <div><label>Temperaturdifferenz [K]</label><input id="dT" type="number" step="any" value="5"></div>
+          <div><label>Rohrinnendurchmesser [mm]</label><input id="di" type="number" step="any" value="25"></div>
+          <div><label>Rohrrauheit [mm]</label><input id="rough" type="number" step="any" value="0.0015"></div>
+          <div><label>Fluid 2</label><select id="c2"><option>Wasser</option><option selected>Antifrogen N</option><option>Antifrogen L</option><option>Kaliumformiat</option></select></div>
+          <div><label>Konzentration Fluid 2 [%]</label><input id="c2pct" type="number" step="any" value="34"></div>
+        </div>
+        <div class="actions">
+          <button id="calcBtn">Berechnen</button>
+          <button class="secondary" id="csvBtn">Beispiel-CSV herunterladen</button>
+        </div>
+        <div class="status" id="status">CoolProp läuft in dieser GitHub-Pages-Version nicht stabil. Für die Seite ist deshalb absichtlich keine Live-Berechnung aktiv.</div>
+        <div class="help">
+          <strong>Warum?</strong> GitHub Pages hostet nur statische Dateien. Dein Original verwendet CoolProp als Python-Paket, und die Browser/WASM-Variante hat in der bereitgestellten Form nicht zuverlässig initialisiert. Für eine echte Rechenversion brauchst du entweder einen Server oder einen nachweislich funktionierenden CoolProp-Browser-Build.
+        </div>
+        <div class="note">Diese Version ist deshalb eine saubere Frontend-/Demo-Version statt einer scheinbar kaputten Live-Version.</div>
+      </section>
+      <section class="card">
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Parameter</th><th>Kälteträger 1</th><th>Kälteträger 2</th></tr></thead>
+            <tbody id="resultsBody" class="muted-table">
+              <tr><td>Bezeichnung</td><td>Projekt / Wasser</td><td>Projekt / Antifrogen N 34 %</td></tr>
+              <tr><td>Übertragene Leistung [kW]</td><td>—</td><td>—</td></tr>
+              <tr><td>Volumenstrom [m3/h]</td><td>—</td><td>—</td></tr>
+              <tr><td>Strömungsgeschwindigkeit [m/s]</td><td>—</td><td>—</td></tr>
+              <tr><td>Druckverlust [bar]</td><td>—</td><td>—</td></tr>
+              <tr><td>Dichte [kg/m3]</td><td>—</td><td>—</td></tr>
+              <tr><td>Spezifische Wärmekapazität [kJ/kg/K]</td><td>—</td><td>—</td></tr>
+              <tr><td>Mittlere Temperatur [°C]</td><td>—</td><td>—</td></tr>
+              <tr><td>Gefrierpunkt [°C]</td><td>—</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </div>
+  <script>
+    function buildRows(){
+      const project = document.getElementById('project').value || 'Projekt';
+      const c1 = document.getElementById('c1').value;
+      const c2 = document.getElementById('c2').value;
+      const c1pct = document.getElementById('c1pct').value;
+      const c2pct = document.getElementById('c2pct').value;
+      const name1 = c1 === 'Wasser' ? 'Wasser' : `${c1} ${c1pct} %`;
+      const name2 = c2 === 'Wasser' ? 'Wasser' : `${c2} ${c2pct} %`;
+      return [
+        ['Bezeichnung', `${project} / ${name1}`, `${project} / ${name2}`],
+        ['Übertragene Leistung [kW]', '—', '—'],
+        ['Volumenstrom [m3/h]', '—', '—'],
+        ['Strömungsgeschwindigkeit [m/s]', '—', '—'],
+        ['Druckverlust [bar]', '—', '—'],
+        ['Dichte [kg/m3]', '—', '—'],
+        ['Spezifische Wärmekapazität [kJ/kg/K]', '—', '—'],
+        ['Mittlere Temperatur [°C]', '—', '—'],
+        ['Gefrierpunkt [°C]', '—', '—']
+      ];
+    }
+    function render(){
+      const rows = buildRows();
+      document.getElementById('resultsBody').innerHTML = rows.map(r => `<tr><td>${r[0]}</td><td>${r[1]}</td><td>${r[2]}</td></tr>`).join('');
+    }
+    function downloadCSV(){
+      const rows = buildRows();
+      const csv = ['Parameter;Kälteträger 1;Kälteträger 2', ...rows.map(r => r.join(';'))].join('\n');
+      const blob = new Blob([csv], {type:'text/csv;charset=utf-8;'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'ccon-040-demo.csv';
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+    ['project','c1','c1pct','c2','c2pct'].forEach(id => document.getElementById(id).addEventListener('input', render));
+    ['c1','c2'].forEach(id => document.getElementById(id).addEventListener('change', render));
+    document.getElementById('calcBtn').addEventListener('click', () => {
+      document.getElementById('status').textContent = 'In Version 0.4.0V ist bewusst keine Live-Berechnung aktiv. Erst muss ein stabiler CoolProp-Webbuild oder ein Server her.';
+      render();
+    });
+    document.getElementById('csvBtn').addEventListener('click', downloadCSV);
+    render();
+  </script>
+</body>
+</html>
