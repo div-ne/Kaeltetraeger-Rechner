@@ -2,7 +2,7 @@
 
 [**Zur Live-Anwendung**](https://kaeltetraeger.streamlit.app/)
 
-Ein webbasiertes Berechnungstool zur Umrechnung thermohydraulischer Kennwerte von einem Kälteträger auf einen anderen. Die Anwendung unterstützt typische Engineering-Anwendungsfälle in der Kälte-, Klima- und Energietechnik und hilft dabei, Auswirkungen eines Medienwechsels auf Volumenstrom, Druckverlust, Strömungsgeschwindigkeit und weitere Stoffwerte schnell abzuschätzen.
+Ein webbasiertes Berechnungstool zur Umrechnung thermohydraulischer Kennwerte von einem Kälteträger auf einen anderen.
 
 ## Funktionen
 
