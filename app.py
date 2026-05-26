@@ -53,7 +53,7 @@ LIMITS_ROWS = [
     ("Kaliumformiat", "40 bis 100 %", "zulässiger Eingabebereich"),
 ]
 
-st.set_page_config(page_title=APP_TITLE, layout="wide")
+st.set_page_config(page_title=APP_TITLE, layout="wide", page_icon="logo.png")
 
 
 def friction_coefficient(di, w, nu, k):
