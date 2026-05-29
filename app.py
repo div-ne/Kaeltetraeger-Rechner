@@ -112,8 +112,7 @@ def safe_freeze_temp(coolant_name, fluid, atmospheric_pressure):
 def build_csv_bytes(df):
     csv_body = df.to_csv(index=False, sep=";")
     header_line = f"{APP_TITLE};{APP_VERSION}"
-    return f"{header_line}
-{csv_body}".encode("utf-8")
+    return (header_line + "\n" + csv_body).encode("utf-8")
 
 
 def run_calculation(inputs):
