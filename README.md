@@ -1,8 +1,6 @@
-# Kälteträger-Rechner
+# Kälteträger Rechner
 
 [**Zur Live-Anwendung**](https://kaeltetraeger.streamlit.app/)
-
-Ein webbasiertes Berechnungstool zur Umrechnung thermohydraulischer Kennwerte von einem Kälteträger auf einen anderen.
 
 ## Funktionen
 
