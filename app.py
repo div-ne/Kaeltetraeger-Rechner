@@ -4,7 +4,7 @@ import streamlit as st
 import CoolProp.CoolProp as cp
 
 APP_TITLE = "Kälteträger-Rechner"
-APP_VERSION = "0.9.3V"
+APP_VERSION = "0.9.4V"
 
 ROUGHNESS_ROWS = [
     ("Gezogene und gepresste Rohre aus Kupfer, Messing, Bronze, Aluminium, Glas oder Kunststoff", "neu, technisch glatt", "0.001 … 0.0015"),
@@ -112,7 +112,7 @@ def safe_freeze_temp(coolant_name, fluid, atmospheric_pressure):
 def build_csv_bytes(df):
     csv_body = df.to_csv(index=False, sep=";")
     header_line = f"{APP_TITLE};{APP_VERSION}"
-    return (header_line + "\n" + csv_body).encode("utf-8")
+    return (header_line + "\n" + csv_body).encode("utf-8-sig")
 
 
 def run_calculation(inputs):
@@ -279,7 +279,7 @@ with right:
         st.download_button(
             label="CSV herunterladen",
             data=build_csv_bytes(st.session_state.result_df),
-            file_name="kaeltetraeger-rechner-ergebnis.csv",
+            file_name="Kälteträger-Rechner.csv",
             mime="text/csv",
             use_container_width=True,
         )
