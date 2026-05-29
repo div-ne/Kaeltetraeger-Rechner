@@ -4,41 +4,41 @@ import streamlit as st
 import CoolProp.CoolProp as cp
 
 APP_TITLE = "Kälteträger-Rechner"
-APP_VERSION = "0.9.1V"
+APP_VERSION = "0.9.3V"
 
 ROUGHNESS_ROWS = [
     ("Gezogene und gepresste Rohre aus Kupfer, Messing, Bronze, Aluminium, Glas oder Kunststoff", "neu, technisch glatt", "0.001 … 0.0015"),
-    ("Gezogene und gepresste Rohre aus Kupfer, Messing, Bronze, Aluminium, Glas oder Kunststoff", "gebraucht", "0.010 … 0.0300"),
+    ("", "gebraucht", "0.010 … 0.0300"),
     ("Gummischlauch", "neu, handelsüblich", "0.0016"),
     ("Rohre aus Gusseisen", "neu, handelsüblich", "0.25 … 0.5"),
-    ("Rohre aus Gusseisen", "angerostet", "1.00 … 1.5"),
-    ("Rohre aus Gusseisen", "verkrustet", "1.50 … 3.0"),
-    ("Rohre aus Gusseisen", "nach mehrjährigem Betrieb gereinigt", "0.30 … 1.5"),
-    ("Rohre aus Gusseisen", "städtliche Kanalisation", "1.20"),
+    ("", "angerostet", "1.00 … 1.5"),
+    ("", "verkrustet", "1.50 … 3.0"),
+    ("", "nach mehrjährigem Betrieb gereinigt", "0.30 … 1.5"),
+    ("", "städtliche Kanalisation", "1.20"),
     ("Neue nahtlose Stahlrohre, gewalzt oder gezogen", "mit Walzhaut", "0.02 … 0.06"),
-    ("Neue nahtlose Stahlrohre, gewalzt oder gezogen", "gebeizt", "0.03 … 0.04"),
-    ("Neue nahtlose Stahlrohre, gewalzt oder gezogen", "bei engen Rohren", "… 0.10"),
+    ("", "gebeizt", "0.03 … 0.04"),
+    ("", "bei engen Rohren", "… 0.10"),
     ("Neue längsgeschweisste Stahlrohre", "mit Walzhaut", "0.04 … 0.1"),
-    ("Neue längsgeschweisste Stahlrohre", "leicht verkrustet", "1.00 … 1.5"),
-    ("Neue längsgeschweisste Stahlrohre", "stark verkrustet", "2.00 … 4.0"),
-    ("Neue längsgeschweisste Stahlrohre", "gebraucht und gereinigt", "0.15 … 0.2"),
+    ("", "leicht verkrustet", "1.00 … 1.5"),
+    ("", "stark verkrustet", "2.00 … 4.0"),
+    ("", "gebraucht und gereinigt", "0.15 … 0.2"),
     ("Neue Stahlrohre mit Überzug", "Metallspritzung", "0.08 … 0.09"),
-    ("Neue Stahlrohre mit Überzug", "tauchverzinkt", "0.07 … 0.10"),
-    ("Neue Stahlrohre mit Überzug", "handelsüblich verzinkt", "0.10 … 0.16"),
-    ("Neue Stahlrohre mit Überzug", "bituminiert", "0.050"),
-    ("Neue Stahlrohre mit Überzug", "zementiert", "0.180"),
-    ("Neue Stahlrohre mit Überzug", "galvanisiert", "0.008"),
+    ("", "tauchverzinkt", "0.07 … 0.10"),
+    ("", "handelsüblich verzinkt", "0.10 … 0.16"),
+    ("", "bituminiert", "0.050"),
+    ("", "zementiert", "0.180"),
+    ("", "galvanisiert", "0.008"),
     ("Gebrauchte Stahlrohre", "gleichmässige Rostnarben", "0.15"),
-    ("Gebrauchte Stahlrohre", "leichte Verkrustung", "0.15 … 0.4"),
-    ("Gebrauchte Stahlrohre", "mittlere Verkrustung", "1.50"),
-    ("Gebrauchte Stahlrohre", "starke Verkrustung", "2.00 … 4.0"),
+    ("", "leichte Verkrustung", "0.15 … 0.4"),
+    ("", "mittlere Verkrustung", "1.50"),
+    ("", "starke Verkrustung", "2.00 … 4.0"),
     ("Asbest-Zementrohre", "neu, handelsüblich", "0.03 … 0.1"),
     ("Betonrohre, Druckstollen", "handelsüblich Glattstrich", "0.3 … 0.8"),
-    ("Betonrohre, Druckstollen", "handelsüblich mittelglatt", "1.0 … 2.0"),
-    ("Betonrohre, Druckstollen", "handelsüblich rau", "2.0 … 3.0"),
-    ("Betonrohre, Druckstollen", "mehrjähriger Betrieb mit Wasser", "0.2 … 0.3"),
+    ("", "handelsüblich mittelglatt", "1.0 … 2.0"),
+    ("", "handelsüblich rau", "2.0 … 3.0"),
+    ("", "mehrjähriger Betrieb mit Wasser", "0.2 … 0.3"),
     ("Neues Tonrohr", "Drainagerohr, gebrannt", "0.6 … 0.8"),
-    ("Neues Tonrohr", "aus rohen Tonziegeln", "9.0"),
+    ("", "aus rohen Tonziegeln", "9.0"),
     ("Medizinisches, Kälte- oder Heizungsgewinderohr", "neu, handelsüblich", "0.045"),
     ("Medizinisches, Kälte- oder Heizungsstahlrohr nahtlos", "neu, handelsüblich", "0.045"),
     ("Medizinisches, Kälte- oder Heizungskupferrohr", "neu, handelsüblich", "0.0005 … 0.0015"),
@@ -107,6 +107,13 @@ def safe_freeze_temp(coolant_name, fluid, atmospheric_pressure):
         return cp.PropsSI("T_freeze", "T", 0, "P", atmospheric_pressure, fluid)
     except Exception:
         return np.nan
+
+
+def build_csv_bytes(df):
+    csv_body = df.to_csv(index=False, sep=";")
+    header_line = f"{APP_TITLE};{APP_VERSION}"
+    return f"{header_line}
+{csv_body}".encode("utf-8")
 
 
 def run_calculation(inputs):
@@ -236,6 +243,11 @@ with left:
             concentration_2 = 100.0
     run = st.button("Berechnen", use_container_width=True)
 
+if "result_df" not in st.session_state:
+    st.session_state.result_df = None
+if "result_error" not in st.session_state:
+    st.session_state.result_error = None
+
 with right:
     st.subheader("Ergebnis")
     if run:
@@ -255,17 +267,23 @@ with right:
                 "temperature_difference": float(temperature_difference),
                 "mean_inner_pipe_diameter": float(mean_inner_pipe_diameter),
             }
-            df = run_calculation(inputs)
-            st.dataframe(df, use_container_width=True, hide_index=True)
-            st.download_button(
-                label="CSV herunterladen",
-                data=df.to_csv(index=False, sep=";").encode("utf-8"),
-                file_name="kaeltetraeger-rechner-ergebnis.csv",
-                mime="text/csv",
-                use_container_width=True,
-            )
+            st.session_state.result_df = run_calculation(inputs)
+            st.session_state.result_error = None
         except Exception as e:
-            st.error(f"Fehler bei der Berechnung: {e}")
+            st.session_state.result_df = None
+            st.session_state.result_error = f"Fehler bei der Berechnung: {e}"
+
+    if st.session_state.result_error:
+        st.error(st.session_state.result_error)
+    elif st.session_state.result_df is not None:
+        st.dataframe(st.session_state.result_df, use_container_width=True, hide_index=True)
+        st.download_button(
+            label="CSV herunterladen",
+            data=build_csv_bytes(st.session_state.result_df),
+            file_name="kaeltetraeger-rechner-ergebnis.csv",
+            mime="text/csv",
+            use_container_width=True,
+        )
     else:
         st.info("Eingaben setzen und auf Berechnen klicken.")
 
