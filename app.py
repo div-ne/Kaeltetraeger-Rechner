@@ -4,7 +4,7 @@ import streamlit as st
 import CoolProp.CoolProp as cp
 
 APP_TITLE = "Kälteträger Rechner"
-APP_VERSION = "0.9.5V"
+APP_VERSION = "0.9.6V"
 
 ROUGHNESS_ROWS = [
     ("Gezogene und gepresste Rohre aus Kupfer, Messing, Bronze, Aluminium, Glas oder Kunststoff", "neu, technisch glatt", "0.001 … 0.0015"),
