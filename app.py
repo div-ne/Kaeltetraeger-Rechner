@@ -209,6 +209,7 @@ st.caption("Rechnet thermohydraulische Kennwerte von einem Kälteträger auf ein
 left, right = st.columns([1, 1.25])
 
 with left:
+    st.subheader("Eingabe")
     project = st.text_input("Projekt", value="Projekt")
     c1_col, c1pct_col = st.columns(2)
     with c1_col:
