@@ -1,36 +1,27 @@
 # Kälteträger Rechner
 
-[**Zur Live-Anwendung**](https://kaeltetraeger.streamlit.app/)
+[**Zur Anwendung**](https://kaeltetraeger.streamlit.app/)
 
 ## Funktionen
 
-- Umrechnung von **Kälteträger 1** auf **Kälteträger 2**
-- Auswahl der Berechnungsbasis über **Volumenstrom** oder **übertragene Leistung**
-- Berücksichtigung von **Druckverlust**, **mittlerer Temperatur**, **Temperaturdifferenz**, **Rohrinnendurchmesser** und **Rohrrauheit**
-- Berechnung relevanter hydraulischer Größen wie **Volumenstrom**, **Strömungsgeschwindigkeit** und **Druckverlust**
-- Berechnung thermodynamischer Eigenschaften wie **Dichte**, **spezifische Wärmekapazität** und **Gefrierpunkt**
-- Ausgabe der Ergebnisse in einer übersichtlichen Tabelle
-- Export der Ergebnisse als **CSV-Datei**
-- Zusätzliche Hilfebereiche für **Anleitung**, **Rohrrauheitswerte** und **Grenzen der Kälteträger**
+- Umrechnung von Kälteträger 1 auf Kälteträger 2.
+- Berechnung relevanter hydraulischer Größen wie Volumenstrom, Strömungsgeschwindigkeit und Druckverlust.
+- Berechnung thermodynamischer Eigenschaften wie Dichte, spezifische Wärmekapazität und Gefrierpunkt.
+- Export der Ergebnisse als CSV-Datei.
 
-## Einsatzbereich
+## Eingabeparameter
 
-Das Tool richtet sich an Anwenderinnen und Anwender aus den Bereichen:
+Die Berechnung wird mit folgenden Eingaben durchgeführt:
 
-- Kälte- und Klimatechnik
-- TGA und Gebäudetechnik
-- Energie- und Versorgungstechnik
-- Planung, Auslegung und Vergleich von Kälteträgerkreisläufen
-
-Ein typischer Anwendungsfall ist die Abschätzung, wie sich ein Wechsel von Wasser auf einen anderen Kälteträger auf hydraulische und thermodynamische Kennwerte auswirkt.
-
-## So funktioniert die Berechnung
-
-Für die Berechnung wird zunächst **Kälteträger 1** mit seiner Konzentration definiert. Anschließend wird festgelegt, ob die Rechnung auf dem **Volumenstrom** oder auf der **übertragenen Leistung** basiert. Danach werden der **Druckverlust mit Kälteträger 1** sowie die allgemeinen Randbedingungen wie mittlere Temperatur, Temperaturdifferenz, Rohrinnendurchmesser und Rohrrauheit eingegeben. Abschließend wird **Kälteträger 2** mit seiner Konzentration ausgewählt, um die entsprechenden Zielwerte zu berechnen.
-
-Ein besonderer Nutzen des Rechners liegt darin, dass nicht nur hydraulische Auswirkungen des Medienwechsels sichtbar werden, sondern auch thermodynamische Eigenschaften direkt berechnet und verglichen werden. Dazu zählen insbesondere **Dichte**, **spezifische Wärmekapazität** und **Gefrierpunkt**.
-
-Die Eingaben für **mittlere Temperatur** und **Temperaturdifferenz** eignen sich beispielsweise zur Abbildung eines Vorlauf-/Rücklauf-Szenarios eines Kühlgeräts oder eines vergleichbaren hydraulischen Systems.
+- Projektname
+- Fluid 1 & Konzentration
+- Basis der Berechnung, Volumenstrom Fluid 1 oder Übertragene Leistung
+- Druckverlust Fluid 1
+- Mittlere Temperatur, analog zu einer Vor- und Rücklauftemperatur
+- Temperaturdifferenz
+- Rohrinnendurchmesser
+- Rohrrauheit
+- Fluid 2 & Konzentration
 
 ## Unterstützte Medien
 
@@ -41,26 +32,10 @@ Aktuell sind in der Anwendung folgende Medien hinterlegt:
 - Antifrogen L
 - Kaliumformiat
 
-## Konzentrationsgrenzen
+## Rohrrauheitswerte & Konzentrationsgrenzen
 
-Für die Eingabe in diesem Tool gelten aktuell folgende Konzentrationsbereiche:
-
-| Kälteträger | Mögliche Konzentration |
-|---|---|
-| Wasser | 100 % |
-| Antifrogen N | 10 bis 60 % |
-| Antifrogen L | 10 bis 60 % |
-| Kaliumformiat | 40 bis 100 % |
+Die App enthält jeweils Werte für Rohrrauheitswerte verschiedener Rohre und die Konzentrationsgrenzen für die verfügbaren Kälteträger.
 
 ## Technologie
 
-Dieses Projekt basiert auf:
-
-- **Python**
-- **Streamlit** für die Weboberfläche
-- **CoolProp** zur Berechnung thermophysikalischer Stoffwerte
-- **NumPy** und **Pandas** für numerische Verarbeitung und Ergebnisdarstellung
-
-## Projektziel
-
-Ziel des Projekts ist ein leicht zugängliches, browserbasiertes Fachtool für den schnellen Vergleich von Kälteträgern in praxisnahen Anwendungsfällen. Im Vordergrund stehen eine einfache Bedienung, nachvollziehbare Eingaben und eine schnelle Verfügbarkeit ohne klassische Desktop-Installation.
+Die Anwendung basiert auf Streamlit für die Oberfläche, CoolProp für Stoffdaten und thermodynamische Zustandsgrößen und NumPy sowie Pandas für Berechnung und Datenaufbereitung.
